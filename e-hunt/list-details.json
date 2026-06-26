@@ -1,0 +1,429 @@
+{
+  "code": 100000,
+  "message": "success",
+  "data": {
+    "product_id": "1763886700",
+    "product_url": "https://www.etsy.com/listing/1763886700",
+    "title": "Personalized Digital Pet Portraits from photo, Custom Dog and Cat painting gift memorial decorative wall art.",
+    "release_time": "2024-08-14",
+    "sales_total": 878,
+    "sales_weekly": 16,
+    "updated_at": "2026-06-25 09:54:36",
+    "views": 43936,
+    "reviews": 440,
+    "reviews_week": 0,
+    "favorite": 1491,
+    "favorites_week": 7,
+    "product_type": [1, 5],
+    "ship_from": "United States",
+    "is_bestsell": true,
+    "is_pick": false,
+    "is_star": false,
+    "is_customize": false,
+    "stock": 829,
+    "categories": [
+      {
+        "category_name": "Pet Supplies",
+        "category_id": "5c7be0f01616b3f2"
+      },
+      {
+        "category_name": "Urns & Memorials",
+        "category_id": "cf869288e49f543b"
+      },
+      {
+        "category_name": "Pet Portraits",
+        "category_id": "a01c23f39844d782"
+      }
+    ],
+    "trend": {
+      "sale": [
+        {
+          "text": "5.1~5.7",
+          "value": {
+            "week": 13,
+            "total": 791
+          }
+        },
+        {
+          "text": "5.8~5.14",
+          "value": {
+            "week": 6,
+            "total": 797
+          }
+        },
+        {
+          "text": "5.15~5.21",
+          "value": {
+            "week": 10,
+            "total": 807
+          }
+        },
+        {
+          "text": "5.22~5.28",
+          "value": {
+            "week": 7,
+            "total": 814
+          }
+        },
+        {
+          "text": "5.29~6.4",
+          "value": {
+            "week": 21,
+            "total": 835
+          }
+        },
+        {
+          "text": "6.5~6.11",
+          "value": {
+            "week": 12,
+            "total": 847
+          }
+        },
+        {
+          "text": "6.12~6.18",
+          "value": {
+            "week": 15,
+            "total": 862
+          }
+        },
+        {
+          "text": "6.19~6.25",
+          "value": {
+            "week": 16,
+            "total": 878
+          }
+        }
+      ],
+      "price": [
+        {
+          "text": "5.1~5.7",
+          "value": {
+            "week": 0,
+            "total": 921
+          }
+        },
+        {
+          "text": "5.8~5.14",
+          "value": {
+            "week": 0,
+            "total": 919
+          }
+        },
+        {
+          "text": "5.15~5.21",
+          "value": {
+            "week": 0,
+            "total": 911
+          }
+        },
+        {
+          "text": "5.22~5.28",
+          "value": {
+            "week": 0,
+            "total": 912
+          }
+        },
+        {
+          "text": "5.29~6.4",
+          "value": {
+            "week": 0,
+            "total": 912
+          }
+        },
+        {
+          "text": "6.5~6.11",
+          "value": {
+            "week": 0,
+            "total": 905
+          }
+        },
+        {
+          "text": "6.12~6.18",
+          "value": {
+            "week": 0,
+            "total": 909
+          }
+        },
+        {
+          "text": "6.19~6.25",
+          "value": {
+            "week": 0,
+            "total": 890
+          }
+        }
+      ],
+      "reviews": [
+        {
+          "text": "5.1~5.7",
+          "value": {
+            "week": 0,
+            "total": 427
+          }
+        },
+        {
+          "text": "5.8~5.14",
+          "value": {
+            "week": 1,
+            "total": 428
+          }
+        },
+        {
+          "text": "5.15~5.21",
+          "value": {
+            "week": 0,
+            "total": 429
+          }
+        },
+        {
+          "text": "5.22~5.28",
+          "value": {
+            "week": 1,
+            "total": 431
+          }
+        },
+        {
+          "text": "5.29~6.4",
+          "value": {
+            "week": 2,
+            "total": 433
+          }
+        },
+        {
+          "text": "6.5~6.11",
+          "value": {
+            "week": 2,
+            "total": 439
+          }
+        },
+        {
+          "text": "6.12~6.18",
+          "value": {
+            "week": 0,
+            "total": 439
+          }
+        },
+        {
+          "text": "6.19~6.25",
+          "value": {
+            "week": 2,
+            "total": 440
+          }
+        }
+      ],
+      "favorite": [
+        {
+          "text": "5.1~5.7",
+          "value": {
+            "week": 10,
+            "total": 1412
+          }
+        },
+        {
+          "text": "5.8~5.14",
+          "value": {
+            "week": 11,
+            "total": 1422
+          }
+        },
+        {
+          "text": "5.15~5.21",
+          "value": {
+            "week": 15,
+            "total": 1438
+          }
+        },
+        {
+          "text": "5.22~5.28",
+          "value": {
+            "week": 17,
+            "total": 1456
+          }
+        },
+        {
+          "text": "5.29~6.4",
+          "value": {
+            "week": 10,
+            "total": 1467
+          }
+        },
+        {
+          "text": "6.5~6.11",
+          "value": {
+            "week": 14,
+            "total": 1480
+          }
+        },
+        {
+          "text": "6.12~6.18",
+          "value": {
+            "week": 3,
+            "total": 1482
+          }
+        },
+        {
+          "text": "6.19~6.25",
+          "value": {
+            "week": 7,
+            "total": 1491
+          }
+        }
+      ]
+    },
+    "tags": [
+      {
+        "name": "pet portrait",
+        "views": 35278226,
+        "views_monthly": 5291733,
+        "favorites": 1320172,
+        "favorites_monthly": 396051,
+        "sales": 592908,
+        "sales_monthly": 3638,
+        "competition": 562527
+      },
+      {
+        "name": "custom pet portrait",
+        "views": 34765711,
+        "views_monthly": 11472684,
+        "favorites": 1305609,
+        "favorites_monthly": 235009,
+        "sales": 583864,
+        "sales_monthly": 3850,
+        "competition": 236088
+      },
+      {
+        "name": "watercolor portrait",
+        "views": 25430094,
+        "views_monthly": 9917736,
+        "favorites": 912080,
+        "favorites_monthly": 15581,
+        "sales": 365421,
+        "sales_monthly": 6302,
+        "competition": 206299
+      },
+      {
+        "name": "personalized pet",
+        "views": 37099674,
+        "views_monthly": 8532925,
+        "favorites": 1627398,
+        "favorites_monthly": 20364,
+        "sales": 906256,
+        "sales_monthly": 10205,
+        "competition": 642437
+      },
+      {
+        "name": "memorial pet",
+        "views": 29633572,
+        "views_monthly": 9482743,
+        "favorites": 980898,
+        "favorites_monthly": 1090,
+        "sales": 689875,
+        "sales_monthly": 3256,
+        "competition": 617329
+      },
+      {
+        "name": "custom memorial pet",
+        "views": 35326562,
+        "views_monthly": 10951234,
+        "favorites": 1218608,
+        "favorites_monthly": 219349,
+        "sales": 747694,
+        "sales_monthly": 711,
+        "competition": 279440
+      },
+      {
+        "name": "pet gift",
+        "views": 43377475,
+        "views_monthly": 7807945,
+        "favorites": 1824135,
+        "favorites_monthly": 200654,
+        "sales": 879649,
+        "sales_monthly": 2267,
+        "competition": 1651823
+      },
+      {
+        "name": "pet portrait photo",
+        "views": 31166220,
+        "views_monthly": 10284852,
+        "favorites": 1217425,
+        "favorites_monthly": 10835,
+        "sales": 527446,
+        "sales_monthly": 4399,
+        "competition": 124198
+      },
+      {
+        "name": "commemorative pet",
+        "views": 378928,
+        "views_monthly": 109889,
+        "favorites": 17897,
+        "favorites_monthly": 549,
+        "sales": 12691,
+        "sales_monthly": 432,
+        "competition": 1930
+      },
+      {
+        "name": "pet illustration",
+        "views": 13088690,
+        "views_monthly": 2094190,
+        "favorites": 713198,
+        "favorites_monthly": 1806,
+        "sales": 242374,
+        "sales_monthly": 2053,
+        "competition": 197723
+      },
+      {
+        "name": "digital pet portrait",
+        "views": 33491742,
+        "views_monthly": 3684091,
+        "favorites": 1239856,
+        "favorites_monthly": 131,
+        "sales": 565514,
+        "sales_monthly": 999,
+        "competition": 258174
+      },
+      {
+        "name": "custom digital pet",
+        "views": 35191171,
+        "views_monthly": 7390145,
+        "favorites": 1412530,
+        "favorites_monthly": 282,
+        "sales": 645048,
+        "sales_monthly": 551,
+        "competition": 77135
+      },
+      {
+        "name": "dog painting",
+        "views": 24614975,
+        "views_monthly": 5661444,
+        "favorites": 943832,
+        "favorites_monthly": 7249,
+        "sales": 400072,
+        "sales_monthly": 4696,
+        "competition": 131446
+      }
+    ],
+    "slideshow_videos": ["https://v.etsystatic.com/video/upload/ac_none,du_15,q_auto:good/Video_01_pjccfx.mp4"],
+    "slideshow_urls": [
+      "https://i.etsystatic.com/53601756/r/il/cbdffd/6195999372/il_120xN.6195999372_cdvo.jpg",
+      "https://i.etsystatic.com/53601756/r/il/ec1c4d/7283396063/il_120xN.7283396063_o6z8.jpg",
+      "https://i.etsystatic.com/53601756/r/il/6a482d/7209198940/il_120xN.7209198940_1mbr.jpg",
+      "https://i.etsystatic.com/53601756/r/il/e7d236/6244027335/il_120xN.6244027335_dono.jpg",
+      "https://i.etsystatic.com/53601756/r/il/bc5769/6122824126/il_120xN.6122824126_k8fw.jpg",
+      "https://i.etsystatic.com/53601756/r/il/e7c174/6196000152/il_120xN.6196000152_ca6v.jpg",
+      "https://i.etsystatic.com/53601756/r/il/f3688c/6196000038/il_120xN.6196000038_oyk0.jpg",
+      "https://i.etsystatic.com/53601756/r/il/bf6f04/6244027823/il_120xN.6244027823_n5n3.jpg",
+      "https://i.etsystatic.com/53601756/r/il/3e60ff/6170932799/il_120xN.6170932799_i2in.jpg",
+      "https://i.etsystatic.com/53601756/r/il/fe0193/6244029315/il_120xN.6244029315_tlri.jpg"
+    ],
+    "store": {
+      "name": "Insartify",
+      "store_id": "4268b3163a0ad6af",
+      "rating": 495,
+      "is_starseller": false,
+      "sales": 7611,
+      "sales_week": 130
+    },
+    "product_fav": false,
+    "fetch_status": 1
+  },
+  "new": true
+}
