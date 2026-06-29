@@ -5,6 +5,7 @@ import {
   isListingPage,
   parseAgeToDays,
   parseCompactNumber,
+  parseDisplayDate,
   parseJsonLdScripts,
   parseNumber,
   queryText,
@@ -12,6 +13,13 @@ import {
 
 interface ReviewSample {
   datePublished: string;
+}
+
+interface ReviewVelocityData {
+  latestReviewDate: string | null;
+  reviewsLast30Days: number | null;
+  reviewsLast90Days: number | null;
+  reviewDatesCount: number;
 }
 
 function parseTagsFromNeuSpec(): string[] {
@@ -30,11 +38,7 @@ function parseTagsFromNeuSpec(): string[] {
   return [];
 }
 
-function parseReviewsFromJsonLd(items: unknown[]): {
-  latestReviewDate: string | null;
-  reviewsLast30Days: number | null;
-  reviewsLast90Days: number | null;
-} {
+function parseReviewsFromJsonLd(items: unknown[]): ReviewVelocityData {
   let latestReviewDate: string | null = null;
   const reviewDates: Date[] = [];
 
@@ -70,7 +74,133 @@ function parseReviewsFromJsonLd(items: unknown[]): {
     latestReviewDate,
     reviewsLast30Days: reviewDates.length > 0 ? last30 : null,
     reviewsLast90Days: reviewDates.length > 0 ? last90 : null,
+    reviewDatesCount: reviewDates.length,
   };
+}
+
+function countReviewsInWindow(dates: Date[], days: number): number {
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+  return dates.filter((d) => d.getTime() >= cutoff).length;
+}
+
+function parseReviewDateFromCard(card: Element): Date | null {
+  for (const el of card.querySelectorAll('p.wt-text-body-small, .wt-text-body-small')) {
+    const text = el.textContent ?? '';
+    const date = parseDisplayDate(text);
+    if (date) return date;
+  }
+
+  const text = card.textContent ?? '';
+  const match = text.match(/\b(\d{1,2}\s+\w+,?\s+\d{4})\b/);
+  return match ? parseDisplayDate(match[1]) : null;
+}
+
+function parseReviewsFromDomSection(doc: Document = document): ReviewVelocityData {
+  const root = doc.querySelector('[data-reviews]');
+  if (!root) {
+    return {
+      latestReviewDate: null,
+      reviewsLast30Days: null,
+      reviewsLast90Days: null,
+      reviewDatesCount: 0,
+    };
+  }
+
+  const reviewDates: Date[] = [];
+  const cards = root.querySelectorAll('.review-card[data-review-region]');
+
+  for (const card of cards) {
+    const date = parseReviewDateFromCard(card);
+    if (date) reviewDates.push(date);
+  }
+
+  if (reviewDates.length === 0) {
+    return {
+      latestReviewDate: null,
+      reviewsLast30Days: null,
+      reviewsLast90Days: null,
+      reviewDatesCount: 0,
+    };
+  }
+
+  reviewDates.sort((a, b) => b.getTime() - a.getTime());
+
+  return {
+    latestReviewDate: reviewDates[0].toISOString().split('T')[0],
+    reviewsLast30Days: countReviewsInWindow(reviewDates, 30),
+    reviewsLast90Days: countReviewsInWindow(reviewDates, 90),
+    reviewDatesCount: reviewDates.length,
+  };
+}
+
+function mergeReviewVelocity(
+  jsonLd: ReviewVelocityData,
+  dom: ReviewVelocityData,
+  reviewCount: number,
+  listingAgeDays: number | null,
+): Pick<ListingData, 'latestReviewDate' | 'reviewsLast30Days' | 'reviewsLast90Days'> {
+  const primary = dom.reviewDatesCount >= jsonLd.reviewDatesCount ? dom : jsonLd;
+  const fallback = primary === dom ? jsonLd : dom;
+
+  let reviewsLast30Days = primary.reviewsLast30Days ?? fallback.reviewsLast30Days;
+  let reviewsLast90Days = primary.reviewsLast90Days ?? fallback.reviewsLast90Days;
+  const latestReviewDate = primary.latestReviewDate ?? fallback.latestReviewDate;
+
+  const visibleSample = Math.max(dom.reviewDatesCount, jsonLd.reviewDatesCount);
+  const sample30 = reviewsLast30Days ?? 0;
+
+  if (
+    reviewCount > 500 &&
+    visibleSample > 0 &&
+    visibleSample <= 8 &&
+    sample30 <= visibleSample &&
+    listingAgeDays != null &&
+    listingAgeDays > 30
+  ) {
+    const ageBased30 = Math.round((reviewCount / listingAgeDays) * 30);
+    const ageBased90 = Math.round((reviewCount / listingAgeDays) * 90);
+    reviewsLast30Days = Math.max(sample30, ageBased30);
+    reviewsLast90Days = Math.max(reviewsLast90Days ?? 0, ageBased90);
+  }
+
+  return {
+    latestReviewDate,
+    reviewsLast30Days: capVelocity(reviewsLast30Days, reviewCount),
+    reviewsLast90Days: capVelocity(reviewsLast90Days, reviewCount),
+  };
+}
+
+function scrapeFavoritesFromDom(): number | null {
+  const links = document.querySelectorAll('a[href*="/favoriters"]');
+  for (const link of links) {
+    const text = (link.textContent ?? '').replace(/\s+/g, ' ').trim();
+    const match = text.match(/([\d,.]+[km]?)\s*favour?ites?/i);
+    if (match) {
+      const count = parseCompactNumber(match[1]);
+      if (count != null) return count;
+    }
+    const fallback = parseCompactNumber(text);
+    if (fallback != null) return fallback;
+  }
+  return null;
+}
+
+function scrapeListedAgeDays(): number | null {
+  const captionEl = Array.from(document.querySelectorAll('.wt-text-caption')).find((el) =>
+    /listed on/i.test(el.textContent ?? ''),
+  );
+  if (captionEl) {
+    const age = parseAgeToDays(captionEl.textContent ?? null);
+    if (age != null) return age;
+  }
+
+  const listedText =
+    queryText(document, ['[data-listing-age]', '.listing-age']) ??
+    Array.from(document.querySelectorAll('p, span, div'))
+      .map((el) => el.textContent?.trim() ?? '')
+      .find((t) => /listed on/i.test(t));
+
+  return parseAgeToDays(listedText ?? null);
 }
 
 function parseProductJsonLd(items: unknown[]): Partial<ListingData> {
@@ -237,21 +367,9 @@ function scrapeListingDom(): Partial<ListingData> {
     partial.currency = detectCurrency(priceText);
   }
 
-  const favoritesLink = document.querySelector('a[href*="/favoriters"]');
-  if (favoritesLink) {
-    const favText = favoritesLink.textContent ?? '';
-    const favMatch = favText.match(/([\d,.]+[km]?)/i);
-    partial.favorites = parseCompactNumber(favMatch?.[1] ?? favText);
-  }
+  partial.favorites = scrapeFavoritesFromDom();
 
-  const listedText = queryText(document, [
-    '[data-listing-age]',
-    '.listing-age',
-  ]) ?? Array.from(document.querySelectorAll('p, span, div'))
-    .map((el) => el.textContent?.trim() ?? '')
-    .find((t) => /listed on/i.test(t));
-
-  partial.listingAgeDays = parseAgeToDays(listedText ?? null);
+  partial.listingAgeDays = scrapeListedAgeDays();
 
   partial.bestseller =
     document.querySelector('#bestseller') != null ||
@@ -282,13 +400,21 @@ export function collectListing(url: string = window.location.href): ListingData 
 
   const jsonLdItems = parseJsonLdScripts();
   const jsonLdProduct = parseProductJsonLd(jsonLdItems);
-  const reviewData = parseReviewsFromJsonLd(jsonLdItems);
+  const jsonLdReviewData = parseReviewsFromJsonLd(jsonLdItems);
+  const domReviewData = parseReviewsFromDomSection();
   const domReviews = scrapeListingReviewsFromDom();
   const dom = scrapeListingDom();
   const tags = parseTagsFromNeuSpec();
 
   const reviewCount = domReviews.reviewCount;
   const rating = reviewCount > 0 ? domReviews.rating : null;
+
+  const reviewVelocity = mergeReviewVelocity(
+    jsonLdReviewData,
+    domReviewData,
+    reviewCount,
+    dom.listingAgeDays ?? null,
+  );
 
   const scrapedAt = Date.now();
 
@@ -307,9 +433,9 @@ export function collectListing(url: string = window.location.href): ListingData 
     category: jsonLdProduct.category ?? null,
     tags: tags.length > 0 ? tags : [],
     listingAgeDays: dom.listingAgeDays ?? null,
-    latestReviewDate: reviewCount > 0 ? reviewData.latestReviewDate : null,
-    reviewsLast30Days: reviewCount > 0 ? capVelocity(reviewData.reviewsLast30Days, reviewCount) : null,
-    reviewsLast90Days: reviewCount > 0 ? capVelocity(reviewData.reviewsLast90Days, reviewCount) : null,
+    latestReviewDate: reviewCount > 0 ? reviewVelocity.latestReviewDate : null,
+    reviewsLast30Days: reviewCount > 0 ? reviewVelocity.reviewsLast30Days : null,
+    reviewsLast90Days: reviewCount > 0 ? reviewVelocity.reviewsLast90Days : null,
     bestseller: dom.bestseller ?? false,
     etsyPick: dom.etsyPick ?? false,
     scrapedAt,

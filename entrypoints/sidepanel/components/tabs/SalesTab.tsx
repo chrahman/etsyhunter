@@ -1,9 +1,9 @@
-import { CheckCircle2, HelpCircle } from 'lucide-react';
-import type { ResearchReport } from '@/lib/types/research';
-import { formatCompact, formatPrice } from '@/lib/utils/format';
-import { ConfidenceBadge } from '../ConfidenceBadge';
-import { EstimatedValue } from '../EstimatedValue';
-import { Tooltip } from '../Tooltip';
+import { CheckCircle2, HelpCircle } from "lucide-react";
+import type { ResearchReport } from "@/lib/types/research";
+import { formatCompact, formatPrice } from "@/lib/utils/format";
+import { ConfidenceBadge } from "../ConfidenceBadge";
+import { EstimatedValue } from "../EstimatedValue";
+import { Tooltip } from "../Tooltip";
 
 interface SalesTabProps {
   report: ResearchReport;
@@ -12,18 +12,14 @@ interface SalesTabProps {
 export function SalesTab({ report }: SalesTabProps) {
   const { listing, estimate } = report;
   if (!listing || !estimate) {
-    return (
-      <div className="p-4 text-sm text-muted">
-        Open a listing page to view sales intelligence.
-      </div>
-    );
+    return <div className="p-4 text-sm text-muted">Open a listing page to view sales intelligence.</div>;
   }
 
   const rows = [
-    { label: 'Total Sales', value: formatCompact(estimate.totalSales), tip: 'Estimated from review count and competitor percentile' },
-    { label: 'Monthly Sales', value: formatCompact(estimate.monthlySales), tip: 'Based on review velocity (30d) with 15% review rate' },
-    { label: 'Monthly Revenue', value: formatPrice(estimate.monthlyRevenue, listing.currency), tip: 'Monthly sales × listing price' },
-    { label: 'Annual Revenue', value: formatPrice(estimate.annualRevenue, listing.currency), tip: 'Monthly revenue × 12' },
+    { label: "Total Sales", value: formatCompact(estimate.totalSales), tip: "Estimated from review count and competitor percentile" },
+    { label: "Monthly Sales", value: formatCompact(estimate.monthlySales), tip: "Based on review velocity (30d) with 15% review rate" },
+    { label: "Monthly Revenue", value: formatPrice(estimate.monthlyRevenue, listing.currency), tip: "Monthly sales × listing price" },
+    { label: "Annual Revenue", value: formatPrice(estimate.annualRevenue, listing.currency), tip: "Monthly revenue × 12" },
   ];
 
   return (
@@ -59,9 +55,7 @@ export function SalesTab({ report }: SalesTabProps) {
         </ul>
       </div>
 
-      <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
-        All sales and revenue figures are estimates based on publicly visible data. Actual sales may differ significantly.
-      </p>
+      <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">All sales and revenue figures are estimates based on publicly visible data. Actual sales may differ slightly.</p>
     </div>
   );
 }

@@ -124,4 +124,17 @@ export function listingScoreToOpportunity(listing: ListingData): number {
   return Math.min(100, Math.round(raw / 2));
 }
 
+export function listingStrengthLabel(score: number): string {
+  if (score >= 80) return 'Excellent';
+  if (score >= 60) return 'Strong';
+  if (score >= 40) return 'Moderate';
+  return 'Weak';
+}
+
+export function listingStrengthColor(score: number): 'green' | 'yellow' | 'red' {
+  if (score >= 60) return 'green';
+  if (score >= 40) return 'yellow';
+  return 'red';
+}
+
 export { computeRawScore };

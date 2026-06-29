@@ -2,7 +2,7 @@ import { Award, Star, TrendingUp, DollarSign, ShoppingBag, Target } from 'lucide
 import type { ResearchReport } from '@/lib/types/research';
 import { formatCompact, formatPrice } from '@/lib/utils/format';
 import { KpiCard } from '../KpiCard';
-import { OpportunityBadge } from '../OpportunityBadge';
+import { ListingStrengthBadge } from '../ListingStrengthBadge';
 import { ConfidenceBadge } from '../ConfidenceBadge';
 
 interface OverviewTabProps {
@@ -33,7 +33,7 @@ export function OverviewTab({ report }: OverviewTabProps) {
                 <Star className="h-3 w-3" /> Etsy&apos;s Pick
               </span>
             )}
-            <OpportunityBadge score={opportunityScore} />
+            <ListingStrengthBadge score={opportunityScore} />
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ export function OverviewTab({ report }: OverviewTabProps) {
             accent="blue"
           />
           <KpiCard
-            label="Opportunity Score"
+            label="Listing Strength"
             value={`${opportunityScore}/100`}
             icon={Target}
             accent="etsy"

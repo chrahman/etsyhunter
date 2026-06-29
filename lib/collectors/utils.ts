@@ -94,6 +94,22 @@ export function queryText(root: ParentNode, selectors: string[]): string | null 
   return null;
 }
 
+export function parseDisplayDate(text: string): Date | null {
+  const trimmed = text.trim();
+  const match =
+    trimmed.match(/(\d{1,2})\s+(\w+),?\s+(\d{4})/i) ??
+    trimmed.match(/(\w+)\s+(\d{1,2}),?\s+(\d{4})/i);
+
+  if (!match) return null;
+
+  const date =
+    /^\d/.test(match[1])
+      ? new Date(`${match[2]} ${match[1]}, ${match[3]}`)
+      : new Date(`${match[1]} ${match[2]}, ${match[3]}`);
+
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
 export function parseAgeToDays(text: string | null): number | null {
   if (!text) return null;
   const lower = text.trim().toLowerCase();
@@ -104,12 +120,17 @@ export function parseAgeToDays(text: string | null): number | null {
   const monthsMatch = lower.match(/([\d.]+)\s*months?/);
   if (monthsMatch) return Math.round(parseFloat(monthsMatch[1]) * 30);
 
-  const listedMatch = text.match(/listed on\s+(\d{1,2})\s+(\w+),?\s+(\d{4})/i);
+  const listedMatch = text.match(/listed on\s+(.+)/i);
   if (listedMatch) {
-    const date = new Date(`${listedMatch[2]} ${listedMatch[1]}, ${listedMatch[3]}`);
-    if (!Number.isNaN(date.getTime())) {
-      return Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
+    const date = parseDisplayDate(listedMatch[1]);
+    if (date) {
+      return Math.max(0, Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24)));
     }
+  }
+
+  const displayDate = parseDisplayDate(text);
+  if (displayDate) {
+    return Math.max(0, Math.floor((Date.now() - displayDate.getTime()) / (1000 * 60 * 60 * 24)));
   }
 
   return null;
